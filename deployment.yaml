@@ -43,6 +43,11 @@ spec:
         - mountPath: /app/script/
           name: import-ssl-cert-script
           readOnly: true
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
       volumes:
       - name: ssl-cert
         secret:
@@ -56,12 +61,6 @@ spec:
           defaultMode: 420
           name: java-ssl-config
         name: ssl-application-properties
-       #readinessProbe:
-       #  httpGet:
-       #    path: /api/server
-       #    port: 8080
-       #  initialDelaySeconds: 10
-       #  periodSeconds: 10
 
 #---
 #apiVersion: v1
