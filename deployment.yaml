@@ -33,6 +33,29 @@ spec:
         envFrom:
         - secretRef:
             name: postgres-db-config
+        volumeMounts:
+        - mountPath: /etc/ssl/certs/letsencrypt
+          name: ssl-cert
+          readOnly: true
+        - mountPath: /app/config/
+          name: ssl-application-properties
+          readOnly: true
+        - mountPath: /app/script/
+          name: import-ssl-cert-script
+          readOnly: true
+      volumes:
+      - name: ssl-cert
+        secret:
+          defaultMode: 420
+          secretName: developer-gtmobi-live-tls
+      - name: import-ssl-cert-script
+        secret:
+          defaultMode: 484
+          secretName: import-ssl-cert-script
+      - configMap:
+          defaultMode: 420
+          name: java-ssl-config
+        name: ssl-application-properties
        #readinessProbe:
        #  httpGet:
        #    path: /api/server
